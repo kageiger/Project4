@@ -11,56 +11,83 @@
 
 #include "Attribute.h"
 
-
+//Sets index and points to 0
 Attribute::Attribute() {
-    // TODO: implement
+    
+    index = 0;
+    points = 0;
+    
 }
 
-
+// gets the value(index) into range so it doesnt go out of bound
 int Attribute::getValueWithinRange(int value) {
-    // TODO: implement
-
-    // DELETE THIS: returning an int to prevent compile error
-    return 0;
+    
+    
+    if(value >= 0 && value < MAX_NUM_ATTRIBUTES){
+        
+        return value;
+    }
+    
+    if(value > (MAX_NUM_ATTRIBUTES - 1)) {
+        return (MAX_NUM_ATTRIBUTES - 1);
+    }else{
+        
+        value = 0;
+    
+    }
+    return value;
 }
 
 
+// After checking validity, sets Index and Points
 Attribute::Attribute(int inIndex, int inPoints) {
-    // TODO: implement
+    
+    inIndex = getValueWithinRange(inIndex);
+    index =  inIndex;
+    points = inPoints;
 }
 
 
+// returns the index
 int Attribute::getIndex()  {
-    // TODO: implement
-
-    // DELETE THIS: returning an int to prevent compile error
-    return 0;
+    
+    return index;
 }
 
 
+// returns the amount of points
 int Attribute::getPoints()  {
-    // TODO: implement
-
-    // DELETE THIS: returning an int to prevent compile error
-    return 0;
+  
+    return points;
 }
 
 
+// gets inIndex within range and then sets index equal to inIndex
 void Attribute::setIndex(int inIndex) {
-    // TODO: implement
+    inIndex = getValueWithinRange(inIndex);
+    index = inIndex;
 }
 
-
+//sets points equal to inPoints
 void Attribute::setPoints(int inPoints) {
-    // TODO: implement
+    
+    points = inPoints;
 }
 
 
+// reads in index and points and then checks the validity of index
 void Attribute::read(istream &ins) {
-    // TODO: implement
+    
+    
+    ins >> index;
+    ins >> points;
+    setIndex(index);
 }
 
-
+//writes out the index and points
 void Attribute::write(ostream &outs)  {
-    // TODO: implement
+    
+    outs << index;
+    outs << points;
+    
 }
