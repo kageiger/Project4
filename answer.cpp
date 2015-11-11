@@ -12,16 +12,42 @@
 #include "Answer.h"
 
 Answer::Answer() {
+    
+    attribute = Attribute();
+    text = "";
 }
 
+Attribute Answer::getAttribute() {
+    
+    return attribute;
+}
+
+void Answer::setAttribute(Attribute &inAttribute){
+    
+    attribute = inAttribute;
+    
+}
+
+string Answer::getText(){
+    
+    return text;
+}
+
+void Answer::setText(string inText){
+    
+    text = inText;
+}
 // TODO: getAttribute, setAttribute, getText, setText
 
 
 void Answer::read(istream &ins) {
-    // TODO: implement
+    
+    attribute.read(ins);
+    getline(ins, text);
 }
 
 
 void Answer::write(ostream &outs) {
-    // TODO: implement
+    
+    outs << text;
 }
