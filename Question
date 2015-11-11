@@ -1,0 +1,117 @@
+/**
+ * Question.cpp
+ *
+ * <#Names#>
+ * <#Uniqnames#>
+ *
+ * EECS 183: Project 4
+ *
+ * <#description#>
+ */
+
+#include "Question.h"
+
+
+// TODO: implement constructor, getValueWithinRange, getNumAnswers,
+//       getQuestionPrompt, setQuestionPrompt, getAnswer, addAnswer,
+//       getAttributeOfAnswer
+
+
+Question::Question(){
+    numAnswers = 0;
+    questionPrompt = "";
+}
+
+int Question::getValueWithinRange(int value, int minValue, int maxValue){
+    
+    if ( value < minValue){
+        return minValue;
+    }
+    if(value > maxValue){
+        return maxValue;
+    }
+    
+    return value;
+}
+
+int Question::getNumAnswers(){
+    return numAnswers;
+}
+
+string Question::getQuestionPrompt(){
+    return questionPrompt;
+}
+
+void Question::setQuestionPrompt(string inQuestionPrompt){
+    
+  questionPrompt = inQuestionPrompt;
+    
+    
+}
+
+Answer Question::getAnswer(int index){
+    
+    getValueWithinRange(index, 0,(numAnswers - 1));
+    if(getValueWithinRange(index, 0, (numAnswers - 1)) != index){
+        return Answer();
+    }
+    
+    return answers[index];
+    
+}
+void Question::addAnswer(Answer &inAnswer){
+    
+    answers[numAnswers] = inAnswer;
+    numAnswers++;
+    
+    //answers[answers.length() - 1] = inAnswer.getAttribute();
+}
+
+// After checking validity returns
+Attribute Question::getAttributeOfAnswer(int answerNumber){
+    
+  
+    
+    
+    answerNumber -= 1;
+    
+    getValueWithinRange(answerNumber, 0, (numAnswers - 1));
+
+    if(getValueWithinRange(answerNumber, 0, (numAnswers - 1)) != answerNumber){
+        return Attribute();
+    }
+    return answers[answerNumber].getAttribute();
+
+  
+}
+void Question::read(istream &ins) {
+    
+    ins >> numAnswers;
+   getline(ins, questionPrompt);
+
+   
+   
+    for(int i = 0; i < numAnswers; i++){
+          Answer answer;
+          answer.read(ins);
+          addAnswer(answer);
+    }
+    
+
+   
+}
+
+
+void Question::write(ostream &outs) {
+    Answer ansWrite;
+    outs << questionPrompt;
+    for(int i = 0; i < numAnswers; i++){
+        
+        outs << i + 1 << ") ";
+        answers[i].write(outs);
+    }
+   
+    
+    
+    
+}
