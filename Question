@@ -86,12 +86,15 @@ Attribute Question::getAttributeOfAnswer(int answerNumber){
 }
 void Question::read(istream &ins) {
     
-    ins >> numAnswers;
-   getline(ins, questionPrompt);
-
+    int tempNumAnswers;
+    string tempQuestionPrompt;
+    
+    ins >> tempNumAnswers;
+    getline(ins, tempQuestionPrompt);
+    questionPrompt = tempQuestionPrompt;
    
    
-    for(int i = 0; i < numAnswers; i++){
+    for(int i; i < tempNumAnswers; i++){
           Answer answer;
           answer.read(ins);
           addAnswer(answer);
