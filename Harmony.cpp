@@ -17,7 +17,7 @@ int main() {
     // TODO: declare a variable of datatype Personality
     Personality k;
     
-    // string allnames[MAX_QUIZZES];
+    string allnames[MAX_QUIZZES];
     int numQuizzes = 0;
     // TODO: declare variables to keep track of:
     //     all the filenames of the quizzes that have been taken
@@ -27,11 +27,16 @@ int main() {
     bool done = false;
     
     while (!done) {
+        
         printMenu();
         
         int userInput = 5;
         cin >> userInput;
-        getNumberInRange(1, 5);
+        
+        while (userInput < 1 || userInput > 5) {
+            getNumberInRange(1, 5);
+        }
+        
         // TODO: read which menu choice the user wants from the keyboard
         //       make sure it's within range
         
@@ -39,21 +44,28 @@ int main() {
         if (userInput == 1) {
             // TODO: if user has taken all the quizzes, print message,
             //       repeat while loop
-            if (numQuizzes == MAX_QUIZZES){
+            while (numQuizzes == MAX_QUIZZES){
                 
                 cout << "You have already taken the maximum number of quizzes!"
                 << endl;
+                printMenu();
+                cin >> userInput;
+                getNumberInRange(1, 5);
                 
-            } else{
+            }
+            if(numQuizzes != MAX_QUIZZES){
                 ifstream theFile;
                 openFile(theFile);
-                //  quizHasBeenTaken(theFile,takenQuizFileNames[numQuizzes], numQuizzes);
+                string fileName;
+               
+                if (quizHasBeenTaken(fileName ,allnames, numQuizzes) == true){
                 cout << "You've already taken that quiz!" << endl;
-                //     allnames[numQuizzes] = theFile;
+                }
+                allnames[numQuizzes] = fileName;
                 takeQuiz(theFile, k);
                 numQuizzes++;
             }
-            
+        
             // TODO: else, create an input stream instance, ask user for
             //       name of file to open and
             //       then open the file for reading
@@ -82,6 +94,7 @@ int main() {
         } else if (userInput == 5) {
             // time to end the loop!
             done = true;
+            cout << endl;
         }
     }
    
@@ -98,8 +111,7 @@ int getNumberInRange(int min, int max) {
     // TODO: Read choice from user
     
     int userChoice;
-    cin >> userChoice;
-    cout << endl;
+    
     // TODO: if user does not cooperate, read everything remaining on the line
     //       into a temp variable and keep asking
     while(userChoice < min || userChoice > max){
@@ -110,7 +122,8 @@ int getNumberInRange(int min, int max) {
         }
         cout << "Invalid response! Please enter a number between ";
         cout << min << " and " << max << ": " << endl;
-        
+        cin >> userChoice;
+    cout << endl;
     }
     // DELETE THIS: returning an int to prevent compile error
     return userChoice;
@@ -158,20 +171,22 @@ void takeQuiz(ifstream &quizFile, Personality &personality) {
     for(int i=0; i < numQuestions; i++){
         Question getIt;
         getIt.read(quizFile);
-        getIt.write(cout);
+        
         
         cout << endl << "Question ";
-        cout << i; // TODO: Put the question number here
+        cout << i+1; // TODO: Put the question number here
         cout << " out of ";
         cout << numQuestions; // TODO: Put your variable name here that tracks
         //       the number of questions
         cout << endl;
-        
+        getIt.write(cout);
         // TODO: Print the question to cout
         
         cout << endl << "Enter your answer: ";
-        int userPick = getNumberInRange(1, 10);
+        int userPick;
+        cin >> userPick;
         Attribute theAttribute = getIt.getAttributeOfAnswer(userPick);
+        
         Personality a;
         a.adjustPersonality(theAttribute);
         
